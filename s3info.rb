@@ -58,7 +58,7 @@ class S3Info
                 files.each do |o|
                         count += 1
                 end
-                puts "Count of xhprof files in #{@bucket_name}/#{key}: #{count}"
+                puts "Count of files in #{@bucket_name}/#{key}: #{count}"
                 return count
         end
 
@@ -88,17 +88,17 @@ if action != "summarise"
         key = ARGV[3]
 end
 
-xhprof = S3Info.new(config_file_location, bucket_name)
+info = S3Info.new(config_file_location, bucket_name)
 if action == "count"
-        xhprof.count_objects(key)
+        info.count_objects(key)
 elsif action == "list"
-        xhprof.list_objects(key)
+        info.list_objects(key)
 elsif action == "summarise"
-        xhprof.summarise_servers()
+        info.summarise_servers()
 elsif action == "checkobject"
-        raise("Need objectname (e.g. ui-2/53e46451467ads.xhprof.gz. " + usage) if !ARGV[3]
+        raise("Need objectname (e.g. ui-2/53e46451467.gz " + usage) if !ARGV[3]
         objectname = ARGV[3]
-        xhprof.check_object(objectname)
+        info.check_object(objectname)
 else
         puts "No action specified: #{usage}"
 end
